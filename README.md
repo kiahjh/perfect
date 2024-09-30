@@ -15,18 +15,7 @@
 - Powerful
 - Fast
 - Safe
-
-## Features
-- static typing
-- type inference
-- named returns
-- typed throws
-- no semicolons
-- no parens for if/while/for/etc.
-- implicit returns
-- variables are snake_case
-- types are PascalCase
-- named arguments
+- Great editor support (LSP, etc.)
 
 ## The language
 
@@ -61,6 +50,14 @@ val str: String = "hello"
 // string interpolation
 val name = "Alice"
 val greeting = "Hello, {name}!"
+
+// multi-line strings
+val multi_line = `
+  This is a multi-line string.
+  It can span multiple lines.
+  All initial and final whitespace is removed, as well as indentation.
+`
+// above string evaluates to "This is a multi-line string.\nIt can span multiple lines.\nAll initial and final whitespace is removed, as well as indentation."
 ```
 
 #### Booleans
@@ -75,6 +72,10 @@ Perfect also has lists, tuples, and ranges.
 ```
 val names: List of String  = ["Alice", "Bob", "Charlie"]
 val numbers: List of Int = [1, 2, 3, 4, 5]
+
+// indexing lists:
+val first_name = names[0] // "Alice"
+// type of first_name is Option of String, because the index might be out of bounds
 ```
 
 #### Tuples
@@ -92,6 +93,25 @@ val stepped_range: Range = 1 to 4 step 2 // 1, 3
 val reversed_range: Range = 4 to 1 // 4, 3, 2, 1
 val reversed_stepped_range: Range = 4 to 1 step 2 // 4, 2
 ```
+
+### Comments
+#### Single line
+```
+// this is a comment
+val x = 4 // this is also a comment
+```
+
+#### Multi-line
+```
+/*
+  This is a multi-line comment.
+  It can span multiple lines.
+*/
+val x = 4
+```
+
+### Operators
+Perfect has the usual arithmetic operators (`+`, `-`, `*`, `/`, `%`, `^`), comparison operators (`==`, `!=`, `>`, `<`, `>=`, `<=`), and logical operators (`and`, `or`, `!`).
 
 ### Control flow
 If/else, while, and for loops. If/else blocks are expressions.
@@ -292,9 +312,11 @@ val three = |my_closure| x: 1, y: 2
 
 #### Unnamed arguments
 ```
-let my_closure = Int, Int -> _0 + _1
+let my_closure = Int, Int -> Int _0 + _1
 val three = |my_closure| 1, 2
 ```
+
+TODO: more examples
 
 ### Structs
 TODO
@@ -328,7 +350,7 @@ struct Point
 
 val p = Point x: 4, y: 5
 val q = Point x: 1, y: 1
-val distance = p.|distance_to| q
+val distance = p |distance_to| q // you don't need to use . syntax to call methods
 ```
 
 #### Mutating methods
@@ -345,11 +367,11 @@ struct Point
 
 // incorrect
 val p = Point x: 4, y: 5
-p.|move_to| x: 1, y: 1 // ERROR: move_to is a mutating method and p is not mutable
+p |move_to| x: 1, y: 1 // ERROR: move_to is a mutating method and p is not mutable
 
 // should be:
 let p = Point x: 4, y: 5 // use let instead
-p.|move_to| x: 1, y: 1
+p |move_to| x: 1, y: 1
 ```
 
 #### Default values

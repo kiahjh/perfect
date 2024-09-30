@@ -1,0 +1,17 @@
+fn main
+  val name = "alice"
+  val reversed = |reverse_string| name
+
+  |expect| reversed |toBe| "ecila"
+--
+
+fn reverse_string String -> String
+  let chars: List of String = []
+  for _, i in it.length
+    match it[it.length - i]
+      Some(str) then chars |append| it
+      None then --
+    --
+  --
+  chars
+--
