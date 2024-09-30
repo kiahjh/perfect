@@ -28,15 +28,17 @@
 - types are PascalCase
 - named arguments
 
-## Examples
+## The language
 
 ### Variable definition
+#### Varibale definiteion
 ```
-// variable definition
 let x = 4 // creates a mutable variable called x (type Int is inferred)
 let y: Int = 4 // creates a mutable variable called y explicitly typed as Int
+```
 
-// constant definition
+#### Constant definition
+```
 val z = 4 // creates an immutable variable called z (type Int is inferred)
 val w: Int = 4 // creates an immutable variable called w explicitly typed as Int
 ```
@@ -80,22 +82,22 @@ val reversed_stepped_range: Range = 4 to 1 step 2 // 4, 2
 // if
 val x = 4
 if x > 3
-    |print| "x is greater than 3"
+  |print| "x is greater than 3"
 --
 
 // if/else
 val x = 4
 if x > 3
-    |print| "x is greater than 3"
+  |print| "x is greater than 3"
 else
-    |print| "x is less than or equal to 3"
+  |print| "x is less than or equal to 3"
 --
 
 // while
 let x = 4
 while x > 0
-    |print| x
-    x = x - 1
+  |print| x
+  x = x - 1
 --
 // prints 4, 3, 2, 1
 
@@ -116,34 +118,34 @@ for i, index in [1, 2, 3, 4] |print| i, index
 // match
 val x = 4
 match x
-    1 then |print| "one"
-    2 then |print| "two"
-    3 then |print| "three"
-    other then |print| "something else"
+  1 then |print| "one"
+  2 then |print| "two"
+  3 then |print| "three"
+  other then |print| "something else"
 --
 
 // match with multiple cases
 val x = 4
 match x
-    1, 2, 3 then |print| "one, two, or three"
-    other then |print| "something else"
+  1, 2, 3 then |print| "one, two, or three"
+  other then |print| "something else"
 --
 
 // match with codeblocks
 val x = 4
 match x
-    1, 2, 3 then
-        |print| "one"
-        |print| "another line"
-    --
-    other then |print| "something else"
+  1, 2, 3 then
+    |print| "one"
+    |print| "another line"
+  --
+  other then |print| "something else"
 --
 
 // value capturing
 val x = 4
 match x
-    3 then |print| "you got magic number!"
-    other num then |print| "you got {num}"
+  3 then |print| "you got magic number!"
+  other num then |print| "you got {num}"
 --
 ```
 
@@ -151,12 +153,12 @@ match x
 ```
 // unnamed arguments
 fn add Int, Int -> Int
-    _0 + _1
+  _0 + _1
 --
 
 // named arguments
 fn add_named_arguments x: Int, y: Int -> Int
-    x + y
+  x + y
 --
 
 // one-liner
@@ -164,22 +166,22 @@ fn add_named_arguments x: Int, y: Int -> Int x + y
 
 // no return type
 fn print_hello
-    |print| "hello"
+  |print| "hello"
 --
 
 // no return type with arguments
 fn print_name name: String
-    |print| name
+  |print| name
 --
 
 one unnamed argument
 fn print_name_2 String
-    |print| it // it is the default name for the first argument (like in Kotlin)
+  |print| it // it is the default name for the first argument (like in Kotlin)
 --
 
 // named returns
 fn add_named_return x: Int, y: Int -> result: Int
-    x + y
+  x + y
 --
 ```
 
@@ -192,6 +194,8 @@ val three = |add| 1, 2
 
 // named arguments
 val three = |add_named_arguments| x: 1, y: 2
+// when the arguments are named, they can be called in any order
+val four = |add_named_arguments| y: 2, x: 2
 
 // no arguments
 |print_hello|
@@ -212,12 +216,90 @@ val three = |my_closure| 1, 2
 ```
 // basic definition
 struct Point
-    x: Int
-    y: Int
+  x: Int
+  y: Int
 --
 
 // instantiation
 val p = Point x: 4, y: 5
+val x = p.x
+
+// methods
+struct Point
+  x: Int
+  y: Int
+
+  fn distance_to Point -> Float
+    let dx = self.x - it.x
+    let dy = self.y - it.y
+    (dx * dx + dy * dy) ^ 0.5
+  --
+--
+
+val p = Point x: 4, y: 5
+val q = Point x: 1, y: 1
+val distance = p.|distance_to| q
+
+// mutating methods
+struct Point
+  x: Int
+  y: Int
+
+  mut fn move_to x: Int, y: Int
+    self.x = x
+    self.y = y
+  --
+--
+
+// incorrect
+val p = Point x: 4, y: 5
+p.|move_to| x: 1, y: 1 // ERROR: move_to is a mutating method and p is not mutable
+
+// should be:
+let p = Point x: 4, y: 5 // use let instead
+p.|move_to| x: 1, y: 1
+
+// default values
+struct Point
+  x: Int = 0
+  y: Int = 0
+--
+
+val p = Point
+p.x // 0
+p.y // 0
+
+// extensions
+struct Point
+  x: Int
+  y: Int
+--
+
+extend Point with
+  fn distance_to Point -> Float
+    let dx = self.x - it.x
+    let dy = self.y - it.y
+    (dx * dx + dy * dy) ^ 0.5
+  --
+--
+
+// inheritance
+struct Shape
+  x: Int
+  y: Int
+--
+
+struct Circle extends Shape
+  radius: Int
+--
+
+val c = Circle x: 4, y: 5, radius: 10
+
+fn print_coordinates Shape
+  |print| it.x, it.y
+--
+
+|print_coordinates| c // works
 ```
 
 ### Enums
