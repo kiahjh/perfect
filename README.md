@@ -74,7 +74,7 @@ val names: List of String  = ["Alice", "Bob", "Charlie"]
 val numbers: List of Int = [1, 2, 3, 4, 5]
 
 // indexing lists:
-val first_name = names[0] // "Alice"
+val first_name = names[1] // "Alice"; Perfect uses 1-based indexing!
 // type of first_name is Option of String, because the index might be out of bounds
 ```
 
@@ -143,8 +143,12 @@ val message = if x > 3
 else
   "x is less than or equal to 3"
 --
+// message is inferred as String
 
 |print| message
+
+val another_message = if x > 3 "foo"
+// another_message is inferred as Option of String because there is no else block
 ```
 
 #### While
@@ -169,8 +173,8 @@ for i in [1, 2, 3, 4] |print| i
 // prints 1, 2, 3, 4
 
 // for with index
-for i, index in [1, 2, 3, 4] |print| i, index
-// prints 1, 0\n2, 1\n3, 2\n4, 3
+for val, index in [2, 4, 6, 8] |print| i, index
+// prints 2, 1\n4, 2\n6, 3\n8, 4
 ```
 
 ### Match
@@ -319,7 +323,7 @@ val three = |my_closure| 1, 2
 TODO: more examples
 
 ### Structs
-TODO
+Structs are defined using the `struct` keyword. Structs can have methods, mutating methods, default values, extensions, and inheritance.
 
 #### basic definition
 ```
@@ -423,6 +427,114 @@ fn print_coordinates Shape
 ```
 
 ### Enums
+Enums are defined using the `enum` keyword. Enums can have associated values and methods.
+
+#### Basic usage
 ```
-// TODO
+enum Gear
+  Park
+  Reverse
+  Neutral
+  Drive
+--
+
+val gear = Gear::Drive
+
+// if the type is inferred, you can omit the enum name
+val gear: Gear = ::Drive
 ```
+
+#### Associated values
+```
+enum Gear
+  Park
+  Reverse
+  Neutral
+  Drive Int
+--
+
+val gear = Gear::Drive 4
+```
+
+#### Methods
+```
+enum Gear
+  Park
+  Reverse
+  Neutral
+  Drive Int
+
+  fn speed_limit -> Int
+    match self
+      Reverse then 20
+      Drive 1 then 30
+      Drive 2 then 50
+      Drive 3 then 70
+      Drive 4 then 90
+      Drive 5 then 110
+      Drive 6 then 130
+      other then 0
+    --
+  --
+--
+
+val speed_limit = Gear::Drive 4 |speed_limit|
+```
+
+#### More matching
+```
+enum Gear
+  Park
+  Reverse
+  Neutral
+  Drive Int
+
+  fn message -> String
+    match self
+      Park then "Park"
+      Reverse then "Reverse"
+      Neutral then "Neutral" 
+      Drive gear then "Drive {gear}"
+    --
+  --
+--
+
+val speed_limit = Gear::Drive 4 |speed_limit|
+```
+
+#### Extensions
+```
+enum Gear
+  Park
+  Reverse
+  Neutral
+  Drive Int
+--
+
+extend Gear with
+  fn speed_limit -> Int
+    match self
+      Reverse then 20
+      Drive 1 then 30
+      Drive 2 then 50
+      Drive 3 then 70
+      Drive 4 then 90
+      Drive 5 then 110
+      Drive 6 then 130
+      other then 0
+    --
+  --
+--
+```
+
+### Error handling
+Functions can throw errors using the `throw` keyword. Errors are caught using the `try` keyword.
+
+#### Throwing errors
+```
+fn divide Int, Int -> Int throws(String)
+  if _2 == 0
+    throw "division by zero"
+  --
+  _1 / _2
+--

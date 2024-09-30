@@ -8,9 +8,9 @@ fn main
 fn reverse_string String -> String
   let chars: List of String = []
   for _, i in it.length
-    match it[it.length - i]
-      Some(str) then chars |append| it
-      None then --
+    match it[it.length - i + 1]
+      Some str then chars |append| it
+      None then ()
     --
   --
   chars
