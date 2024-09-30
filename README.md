@@ -189,6 +189,9 @@ val three = add_named_arguments x: 1, y: 2
 
 // no arguments
 print_hello
+
+// note: if you want to reference a function without calling it, surround it with pipes
+val new_name = |print_hello|
 ```
 
 ### Closures
