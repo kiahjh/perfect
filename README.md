@@ -52,6 +52,10 @@ val y: Float = 4.0
 // strings
 val str: String = "hello"
 
+// string interpolation
+val name = "Alice"
+val greeting = "Hello, {name}!"
+
 // booleans
 val b: Bool = true
 
