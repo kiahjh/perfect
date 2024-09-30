@@ -76,70 +76,70 @@ val reversed_stepped_range: Range = 4 to 1 step 2 // 4, 2
 // if
 val x = 4
 if x > 3
-    print "x is greater than 3"
+    |print| "x is greater than 3"
 --
 
 // if/else
 val x = 4
 if x > 3
-    print "x is greater than 3"
+    |print| "x is greater than 3"
 else
-    print "x is less than or equal to 3"
+    |print| "x is less than or equal to 3"
 --
 
 // while
 let x = 4
 while x > 0
-    print x
+    |print| x
     x = x - 1
 --
 // prints 4, 3, 2, 1
 
 // for
-for i in 1 to 4 print i
+for i in 1 to 4 |print| i
 // prints 1, 2, 3, 4
 
-for i in 8 to 1 step 2 print i
+for i in 8 to 1 step 2 |print| i
 // prints 8, 6, 4, 2
 
-for i in [1, 2, 3, 4] print i
+for i in [1, 2, 3, 4] |print| i
 // prints 1, 2, 3, 4
 
 // for with index
-for i, index in [1, 2, 3, 4] print i, index
+for i, index in [1, 2, 3, 4] |print| i, index
 // prints 1, 0\n2, 1\n3, 2\n4, 3
 
 // match
 val x = 4
 match x
-    1 then print "one"
-    2 then print "two"
-    3 then print "three"
-    other then print "something else"
+    1 then |print| "one"
+    2 then |print| "two"
+    3 then |print| "three"
+    other then |print| "something else"
 --
 
 // match with multiple cases
 val x = 4
 match x
-    1, 2, 3 then print "one, two, or three"
-    other then print "something else"
+    1, 2, 3 then |print| "one, two, or three"
+    other then |print| "something else"
 --
 
 // match with codeblocks
 val x = 4
 match x
     1, 2, 3 then
-        print "one"
-        print "another line"
+        |print| "one"
+        |print| "another line"
     --
-    other then print "something else"
+    other then |print| "something else"
 --
 
 // value capturing
 val x = 4
 match x
-    3 then print "you got magic number!"
-    other num then print "you got {num}"
+    3 then |print| "you got magic number!"
+    other num then |print| "you got {num}"
 --
 ```
 
@@ -160,17 +160,17 @@ fn add_named_arguments x: Int, y: Int -> Int x + y
 
 // no return type
 fn print_hello
-    print "hello"
+    |print| "hello"
 --
 
 // no return type with arguments
 fn print_name name: String
-    print name
+    |print| name
 --
 
 one unnamed argument
 fn print_name_2 String
-    print it // it is the default name for the first argument (like in Kotlin)
+    |print| it // it is the default name for the first argument (like in Kotlin)
 --
 
 // named returns
@@ -181,28 +181,27 @@ fn add_named_return x: Int, y: Int -> result: Int
 
 ### Function calls
 ```
+// surround a function name with pipes to call it
+
 // unnamed arguments
-val three = add 1, 2
+val three = |add| 1, 2
 
 // named arguments
-val three = add_named_arguments x: 1, y: 2
+val three = |add_named_arguments| x: 1, y: 2
 
 // no arguments
-print_hello
-
-// note: if you want to reference a function without calling it, surround it with pipes
-val new_name = |print_hello|
+|print_hello|
 ```
 
 ### Closures
 ```
 // named arguments
 let my_closure = x: Int, y: Int -> Int x + y
-val three = my_closure x: 1, y: 2
+val three = |my_closure| x: 1, y: 2
 
 // unnamed arguments
 let my_closure = Int, Int -> _0 + _1
-val three = my_closure 1, 2
+val three = |my_closure| 1, 2
 ```
 
 ### Structs
