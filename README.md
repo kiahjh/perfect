@@ -1,5 +1,16 @@
 # The Perfect Programming Language
 
+## TODO:
+- enums
+- more details on structs
+- throwing functions
+- type aliases
+- generics
+- module system
+- standard library
+
+
+## Goals
 - Approachable
 - Powerful
 - Fast
